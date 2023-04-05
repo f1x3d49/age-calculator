@@ -1,23 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import FormComponent from "./components/FormComponent";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App flex items-center justify-center w-screen h-screen bg-secondowhite">
+      <div className="w-[45%] h-3/4 pl-5 pt-3 flex flex-col items-start justify-start bg-white rounded-br-[200px] rounded-tr-3xl rounded-l-3xl">
+        <FormComponent />
+        <hr />
+      </div>
     </div>
   );
 }
