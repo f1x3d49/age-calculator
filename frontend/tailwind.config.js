@@ -12,6 +12,9 @@ module.exports = {
         secondsgrey: "hsl(var(--color-smokey-grey) / <alpha-value>)",
         secondoblack: "hsl(var(--color-off-black) / <alpha-value>)",
       },
+      fontFamily: {
+        poppins: ["Poppins"],
+      },
     },
   },
   plugins: [],
