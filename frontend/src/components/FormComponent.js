@@ -8,6 +8,9 @@ const FormComponent = () => {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [age, setAge] = useState("");
+  const [dayerror, setDError] = useState("");
+  const [montherror, setMError] = useState("");
+  const [yearerror, setYError] = useState("");
 
   const generateArray = (start, end) => {
     let arr = [];
@@ -17,9 +20,22 @@ const FormComponent = () => {
     return arr;
   };
 
-  const months = generateArray(1, 12);
-  const days = generateArray(1, 31);
-  const years = generateArray(1900, new Date().getFullYear());
+  // validate function
+  const validate = () => {
+    const errors = {};
+    const months = generateArray(1, 12);
+    const days = generateArray(1, 31);
+    const years = generateArray(1900, new Date().getFullYear());
+
+    if (day === "") errors.day = "This field is required";
+    if (!days.includes(day)) errors.day = "Must be a valid day";
+
+    if (month === "") errors.month = "This field is required";
+    if (!months.includes(month)) errors.month = "Must be a valid month";
+
+    if (year === "") errors.year = "This field is required";
+    if (!years.includes(year)) errors.year = "Must be a valid year";
+  };
 
   // calculating age function
   const calculateAge = (birthday) => {
