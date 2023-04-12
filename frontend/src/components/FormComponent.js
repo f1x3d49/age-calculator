@@ -1,12 +1,11 @@
-import React, { useState, createContext } from "react";
+import React, { useContext } from "react";
 import { ReactComponent as Arrow } from "../assets/images/icon-arrow.svg";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
-export const BDayContext = createContext();
+import { AgeContext } from "./AgeContext";
 
 const FormComponent = () => {
-  const [age, setAge] = useState("");
+  const [age, setAge] = useContext(AgeContext);
 
   //Formik Logics
   const formik = useFormik({
@@ -33,22 +32,15 @@ const FormComponent = () => {
     }),
 
     //Submit Form
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       setAge(
         calculateAge(
           `${formik.values.month} ${formik.values.day} ${formik.values.year}`
         )
       );
+      resetForm({ values: "" });
     },
   });
-
-  const generateArray = (start, end) => {
-    let arr = [];
-    for (start; start <= end; start++) {
-      arr.push(start);
-    }
-    return arr;
-  };
 
   // calculating age function
   const calculateAge = (birthday) => {
@@ -60,9 +52,14 @@ const FormComponent = () => {
       months = Math.floor(days_diff / 30.4167),
       days = Math.floor(days_diff % 30.4167);
 
-    console.log(`${years} years ${months} months ${days} days`);
-    return `${years} years ${months} months ${days} days`;
+    return {
+      years: years,
+      months: months,
+      days: days,
+    };
   };
+
+  console.log(age);
 
   return (
     <form onSubmit={formik.handleSubmit} className="w-full">
@@ -70,8 +67,10 @@ const FormComponent = () => {
         <div className="flex flex-col">
           <label
             htmlFor="day"
-            className={`text-secondsgrey tracking-widest text-xs font-bold mb-2 ${
-              formik.touched.day && formik.errors.day ? "text-primaryred" : ""
+            className={`tracking-widest text-xs font-bold mb-2 ${
+              formik.touched.day && formik.errors.day
+                ? "text-primaryred"
+                : "text-secondsgrey"
             }`}
           >
             DAY
@@ -94,10 +93,10 @@ const FormComponent = () => {
         <div className="flex flex-col">
           <label
             htmlFor="month"
-            className={`text-secondsgrey tracking-widest text-xs font-bold mb-2 ${
+            className={`tracking-widest text-xs font-bold mb-2 ${
               formik.touched.month && formik.errors.month
                 ? "text-primaryred"
-                : ""
+                : "text-secondsgrey"
             }`}
           >
             MONTH
@@ -124,10 +123,10 @@ const FormComponent = () => {
         <div className="flex flex-col">
           <label
             htmlFor="year"
-            className={`text-secondsgrey tracking-widest text-xs font-bold mb-2 ${
-              formik.touched.month && formik.errors.month
+            className={`tracking-widest text-xs font-bold mb-2 ${
+              formik.touched.year && formik.errors.year
                 ? "text-primaryred"
-                : ""
+                : "text-secondsgrey"
             }`}
           >
             YEAR
@@ -155,7 +154,7 @@ const FormComponent = () => {
         <div className="border-t-2 w-[32rem] mt-12"></div>
         <button
           type="submit"
-          className="flex justify-center items-center bg-primarypurple rounded-full w-20 h-20 p-5"
+          className="flex justify-center items-center bg-primarypurple active:bg-secondoblack rounded-full w-20 h-20 p-5"
         >
           <Arrow />
         </button>
